@@ -41,47 +41,91 @@ let tet=[
 let offsetX =0;
 let offsetY =0;
 
+const board =[];
+
 const draw=()=>{
     ctx.fillStyle='#000';
     ctx.fillRect(0,0,canvasW,canvasH);
 
-    ctx.fillStyle='#f00';
-    ctx.fillRect(150,150,blockSize,blockSize);
+    //ctx.fillStyle='#f00';
+    //ctx.fillRect(150,150,blockSize,blockSize);
+
+    //ボードに存在するブロックを描画
+    for(let y=0;y<boardRow;y++){
+        for(let x =0;x<boardCol;x++){
+            if(board[y][x]){
+                drawBlock(x,y);
+            }
+        }
+    }
 
     for(let y=0;y<tetSize;y++){
     for(let x=0;x<tetSize;x++){
         if(tet[y][x]){
-            ctx.fillRect(
-                (offsetX+x)*blockSize,
-                (offsetY+y)*blockSize,
-                blockSize,
-                blockSize);
+            drawBlock(offsetX+x,offsetY+y);
         }
     }
 }
 
-}
+};
+const drawBlock=(x,y)=>{
+    let px=x*blockSize;
+    let py=y*blockSize;
+    ctx.fillStyle='#f00';
+    ctx.fillRect(px,py,blockSize,blockSize);
+    ctx.strokeStyle ='black';
+    ctx.strokeRect(px,py,blockSize,blockSize);
+};
+
+const canMove=(dx,dy)=>{
+    for(let y=0;y<tetSize;y++){
+        for(let x =0;x<tetSize;x++){
+            if(tet[y][x]){
+                let nx=offsetX+x+dx;
+                let ny=offsetY+y+dy;
+                if(
+                    ny < 0 ||
+                    nx < 0 ||
+                    ny >= boardRow ||
+                    nx >= boardCol ||
+                    board[ny][nx]
+                ){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+};
+
 document.onkeydown =(e)=>{
     switch(e.keyCode){
         case 37:
-        offsetX--;
+        if(canMove(-1,0)) offsetX--;
         break;
         case 38:
-        offsetY--;
+        if(canMove(0,-1)) offsetY--;
         break;
         case 39:
-        offsetX++;
+        if(canMove(1,0)) offsetX++;
         break;
         case 40:
-        offsetY++;
+        if(canMove(0,1)) offsetY++;
         break;
     }
     draw();
 };
 
 const init=()=>{
+    for(let y=0;y<boardRow;y++){
+        board[y]=[];
+        for(let x=0;x<boardCol; x++){
+            board[y][x]=0;
+        }
+    }
+    board[3][5]=1;
     draw();
-}
+};
 </script>
 </body>
 </html>

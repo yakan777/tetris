@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>テトリス</title>
+<style>
+    body{
+        background:#ddf5ff;
+    }
+    #container{
+        margin:0 auto;
+    }
+</style>
+</head>
+<body onload="init()">
+<div id="container">
+    <canvas id="cvs"></canvas>
+</div>
+<script>
+const blockSize=30;
+const boardRow=20;
+const boardCol=10;
+const cvs =document.getElementById("cvs");
+const ctx=cvs.getContext("2d");
+const canvasW=blockSize * boardCol;
+const canvasH=blockSize * boardRow;
+cvs.width=canvasW;
+cvs.height=canvasH;
+const container=document.getElementById("container");
+container.style.width=canvasW+'px';
+
+const tetSize=4;
+//T型のtet
+let tet=[
+    [0,0,0,0],
+    [0,1,0,0],
+    [1,1,1,0],
+    [0,0,0,0],
+];
+
+let offsetX =0;
+let offsetY =0;
+
+const draw=()=>{
+    ctx.fillStyle='#000';
+    ctx.fillRect(0,0,canvasW,canvasH);
+
+    ctx.fillStyle='#f00';
+    ctx.fillRect(150,150,blockSize,blockSize);
+
+    for(let y=0;y<tetSize;y++){
+    for(let x=0;x<tetSize;x++){
+        if(tet[y][x]){
+            ctx.fillRect(
+                (offsetX+x)*blockSize,
+                (offsetY+y)*blockSize,
+                blockSize,
+                blockSize);
+        }
+    }
+}
+
+}
+document.onkeydown =(e)=>{
+    switch(e.keyCode){
+        case 37:
+        offsetX--;
+        break;
+        case 38:
+        offsetY--;
+        break;
+        case 39:
+        offsetX++;
+        break;
+        case 40:
+        offsetY++;
+        break;
+    }
+    draw();
+};
+
+const init=()=>{
+    draw();
+}
+</script>
+</body>
+</html>

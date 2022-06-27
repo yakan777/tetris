@@ -17,6 +17,7 @@
     <canvas id="cvs"></canvas>
 </div>
 <script>
+
 const speed=300;
 
 const blockSize=30;
@@ -105,6 +106,9 @@ let isGameOver=false;
 const draw=()=>{
     ctx.fillStyle='#000';
     ctx.fillRect(0,0,canvasW,canvasH);
+    //ctx.strokeStyle="blue";
+    //ctx.lineWidth=10;
+    //ctx.strokeRect(0, 0, canvasW, canvasH)
 
     //ctx.fillStyle='#f00';
     //ctx.fillRect(150,150,blockSize,blockSize);
@@ -135,6 +139,9 @@ if(isGameOver){
     const y=canvasH/2-20;
     ctx.fillStyle='#800000';
     ctx.fillText(s,x,y);
+    ctx.strokeStyle="red";
+    ctx.lineWidth=10;
+    ctx.strokeRect(0, 0, canvasW, canvasH)
 }
 
 };
@@ -278,6 +285,7 @@ timerTd=setInterval(dropTet,speed);
 
     draw();
 };
+
 </script>
 </body>
 </html>
